@@ -1,7 +1,6 @@
 package br.com.petrobras;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.drools.KnowledgeBase;
 import org.drools.builder.KnowledgeBuilder;
 import org.drools.builder.KnowledgeBuilderFactory;
@@ -26,12 +25,13 @@ public class FormularioColetaProcessTest {
 	    Map<String, Object> params = new HashMap<String, Object>();
 	    params.put("person", new Person("krisv"));
 	    ksession.startProcess("Process", params);
+
 	  }
 
 	
-	private StatefulKnowledgeSession createKnowledgeSession(String bpmnModel) {
+	private StatefulKnowledgeSession createKnowledgeSession(String process) {
 		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-		kbuilder.add( ResourceFactory.newClassPathResource(bpmnModel), ResourceType.BPMN2 );
+		kbuilder.add( ResourceFactory.newClassPathResource(process), ResourceType.BPMN2 );
 		KnowledgeBase kbase = kbuilder.newKnowledgeBase();
 		return kbase.newStatefulKnowledgeSession();
 	}
