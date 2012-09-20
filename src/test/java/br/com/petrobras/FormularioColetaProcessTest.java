@@ -29,9 +29,9 @@ public class FormularioColetaProcessTest {
 	  }
 
 	
-	private StatefulKnowledgeSession createKnowledgeSession(String process) {
+	private StatefulKnowledgeSession createKnowledgeSession(String bpmnModel) {
 		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-		kbuilder.add( ResourceFactory.newClassPathResource(process), ResourceType.BPMN2 );
+		kbuilder.add( ResourceFactory.newClassPathResource(bpmnModel), ResourceType.BPMN2 );
 		KnowledgeBase kbase = kbuilder.newKnowledgeBase();
 		return kbase.newStatefulKnowledgeSession();
 	}
