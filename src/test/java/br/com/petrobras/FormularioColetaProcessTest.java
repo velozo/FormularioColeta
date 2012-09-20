@@ -1,4 +1,7 @@
 package br.com.petrobras;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.drools.KnowledgeBase;
 import org.drools.builder.KnowledgeBuilder;
 import org.drools.builder.KnowledgeBuilderFactory;
@@ -13,15 +16,26 @@ public class FormularioColetaProcessTest {
 
 	@Before
 	public void setUp() {
-		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-		kbuilder.add( ResourceFactory.newClassPathResource("greet.bpmn"), ResourceType.BPMN2 );
-		
-		KnowledgeBase kbase = kbuilder.newKnowledgeBase();
-		
-		StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
-		ksession.startProcess("Process_1");
+		StatefulKnowledgeSession ksession = createKnowledgeSession("FormularioColetaProcess.bpmn");
+		ksession.startProcess("FCWProcess");
 	}
 	
+	 @Test
+	  public void testProcess() {
+	    StatefulKnowledgeSession ksession = createKnowledgeSession("script.bpmn");
+	    Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("person", new Person("krisv"));
+	    ksession.startProcess("Process", params);
+	  }
+
+	
+	private StatefulKnowledgeSession createKnowledgeSession(String process) {
+		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+		kbuilder.add( ResourceFactory.newClassPathResource(process), ResourceType.BPMN2 );
+		KnowledgeBase kbase = kbuilder.newKnowledgeBase();
+		return kbase.newStatefulKnowledgeSession();
+	}
+
 	@Test
 	public void test() {
 		criarFormularioColetaDeterminadoMesAno();
